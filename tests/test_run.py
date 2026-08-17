@@ -1,6 +1,8 @@
+import json
 from argparse import ArgumentParser, Namespace
 from unittest import TestCase
 
+from triage_bench.data import repository_root
 from triage_bench.run import openrouter_policy
 
 
@@ -43,3 +45,21 @@ class OpenRouterPolicyTests(TestCase):
         )
         with self.assertRaises(SystemExit):
             openrouter_policy(args, ArgumentParser())
+
+    def test_every_staged_openrouter_model_has_cost_data(self) -> None:
+        root = repository_root()
+        costs = json.loads(
+            (root / "config/openrouter-costs-2026-08-18.json").read_text()
+        )
+        models = set()
+        for manifest in (root / "config/runs").glob("*.json"):
+            models.update(json.loads(manifest.read_text()).get("models", []))
+
+        for model in models:
+            with self.subTest(model=model):
+                self.assertIn(model, costs)
+                self.assertEqual(
+                    set(costs[model]),
+                    {"input", "output", "input_cache_write", "input_cache_read"},
+                )
+                self.assertTrue(all(value >= 0 for value in costs[model].values()))

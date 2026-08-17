@@ -56,6 +56,12 @@ def main() -> None:
     parser.add_argument("--max-retries", type=int, default=3)
     parser.add_argument("--timeout", type=int, default=120)
     parser.add_argument("--cost-limit", type=float)
+    parser.add_argument(
+        "--model-cost-config",
+        type=Path,
+        default=repository_root() / "config/openrouter-costs-2026-08-18.json",
+        help="Inspect model pricing in USD per million tokens",
+    )
     parser.add_argument("--reasoning-effort")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--display", default="full", choices=["full", "plain", "log", "none"])
@@ -98,6 +104,7 @@ def main() -> None:
         seed=args.seed,
         max_tokens=args.max_tokens,
         cost_limit=args.cost_limit,
+        model_cost_config=str(args.model_cost_config) if args.model_cost_config else None,
         reasoning_effort=args.reasoning_effort,
         fail_on_error=False,
     )
