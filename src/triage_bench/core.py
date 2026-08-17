@@ -128,6 +128,16 @@ def _rate(numerator: int, denominator: int) -> float | None:
     return None if denominator == 0 else numerator / denominator
 
 
+def _wilson_interval(successes: int, total: int, z: float = 1.96) -> dict[str, float] | None:
+    if total == 0:
+        return None
+    proportion = successes / total
+    denominator = 1 + (z * z / total)
+    centre = (proportion + z * z / (2 * total)) / denominator
+    margin = z * ((proportion * (1 - proportion) / total + z * z / (4 * total * total)) ** 0.5) / denominator
+    return {"low": max(0.0, centre - margin), "high": min(1.0, centre + margin)}
+
+
 def score_predictions(
     cases: list[dict[str, Any]],
     pairs: list[dict[str, Any]],
@@ -204,6 +214,16 @@ def score_predictions(
         "next_question_accuracy": _rate(ask_correct, ask_cases),
         "assessment_route_accuracy": _rate(assessment_correct, assessment_cases),
         "counterfactual_pair_accuracy": _rate(pair_correct, evaluated_pairs),
+        "confidence_intervals_95": {
+            "coverage": _wilson_interval(submitted, len(cases)),
+            "valid_output_rate": _wilson_interval(valid_predictions, submitted),
+            "current_action_accuracy": _wilson_interval(action_correct, submitted),
+            "target_node_accuracy": _wilson_interval(target_correct, submitted),
+            "exact_decision_accuracy": _wilson_interval(exact_correct, submitted),
+            "next_question_accuracy": _wilson_interval(ask_correct, ask_cases),
+            "assessment_route_accuracy": _wilson_interval(assessment_correct, assessment_cases),
+            "counterfactual_pair_accuracy": _wilson_interval(pair_correct, evaluated_pairs),
+        },
         "evaluated_pairs": evaluated_pairs,
         "total_pairs": len(pairs),
     }

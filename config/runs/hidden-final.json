@@ -1,0 +1,11 @@
+{
+  "stage": "hidden-final",
+  "benchmark_version": "v0.1",
+  "split": "test",
+  "cases": 392,
+  "epochs": 3,
+  "temperature": 0,
+  "seed": 42,
+  "storage": "gs://logarithms-research-prod-hidden-evals/triage-bench/v0.1/hidden-test/",
+  "gate": "One final campaign for selected systems. No prompt, parser or task changes are permitted after the first hidden result is viewed."
+}

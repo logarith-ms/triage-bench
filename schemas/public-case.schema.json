@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labs.logarith.ms/schemas/triage-bench-public-case/v0.1.json",
+  "title": "TriageBench public case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "case_family_id", "benchmark_version", "release_status", "geography", "language", "pathway", "tracks", "dialogue_prefix", "candidates", "reference"],
+  "properties": {
+    "case_id": { "type": "string", "minLength": 1 },
+    "case_family_id": { "type": "string", "minLength": 1 },
+    "benchmark_version": { "const": "v0.1" },
+    "release_status": { "enum": ["public_benchmark", "public_development_fixture"] },
+    "geography": { "const": "GB" },
+    "language": { "const": "en-GB" },
+    "pathway": { "type": "object" },
+    "tracks": { "type": "array", "items": { "type": "string" } },
+    "dialogue_prefix": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "content"],
+        "properties": {
+          "role": { "enum": ["assistant", "patient"] },
+          "content": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action_type", "response_mode", "target_node_id", "content"],
+        "properties": {
+          "action_type": { "enum": ["ask_question", "return_assessment"] },
+          "response_mode": { "enum": ["question", "assessment"] },
+          "target_node_id": { "type": "string", "minLength": 1 },
+          "content": { "type": "object" }
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action_type", "response_mode", "target_node_id"],
+      "properties": {
+        "action_type": { "enum": ["ask_question", "return_assessment"] },
+        "response_mode": { "enum": ["question", "assessment"] },
+        "target_node_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

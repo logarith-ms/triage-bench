@@ -23,7 +23,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Score TriageBench JSONL predictions")
     parser.add_argument("predictions", type=Path)
     parser.add_argument(
-        "--split", default="sample", choices=["sample", "train", "validation", "test"]
+        "--split", default="sample", choices=["sample", "public", "train", "validation", "test"]
     )
     parser.add_argument("--allow-hidden-test", action="store_true")
     parser.add_argument("--output", type=Path)

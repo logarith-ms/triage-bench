@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-SPLITS = {"sample", "train", "validation", "test"}
+SPLITS = {"sample", "public", "train", "validation", "test"}
 
 
 def repository_root() -> Path:
@@ -62,8 +62,11 @@ def load_split(
             "The hidden test split is locked. Use validation for development. "
             "A final test run requires --allow-hidden-test."
         )
-    root = release_root or default_release_root()
-    directory = root / split
+    if split == "sample" and release_root is None and not os.environ.get("TRIAGE_BENCH_RELEASE_ROOT"):
+        directory = default_release_root() / split
+    else:
+        root = release_root or Path(os.environ.get("TRIAGE_BENCH_RELEASE_ROOT", repository_root() / ".local/releases/v0.1")).expanduser().resolve()
+        directory = root / split
     manifest_path = directory / "manifest.json"
     if not manifest_path.exists():
         raise FileNotFoundError(

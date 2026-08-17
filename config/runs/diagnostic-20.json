@@ -1,0 +1,16 @@
+{
+  "stage": "diagnostic-20",
+  "benchmark_version": "v0.1",
+  "split": "public",
+  "limit": 20,
+  "epochs": 1,
+  "temperature": 0,
+  "seed": 42,
+  "maximum_cost_usd_per_model": 5,
+  "models": [
+    "openrouter/mistralai/ministral-3b-2512",
+    "openrouter/mistralai/ministral-8b-2512",
+    "openrouter/qwen/qwen3.5-9b"
+  ],
+  "gate": "Inspect parser failures, invalid choices, ambiguous tasks and counterfactual failures before freezing v0.1."
+}

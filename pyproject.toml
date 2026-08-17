@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Evaluation harness for sequential UK clinical-triage decisions"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
-dependencies = ["inspect-ai==0.3.259"]
+dependencies = ["inspect-ai==0.3.259", "openai>=1.99.2,<3"]
 
 [project.urls]
 Homepage = "https://labs.logarith.ms/benchmarks/triage-bench"
