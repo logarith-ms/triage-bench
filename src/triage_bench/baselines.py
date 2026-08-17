@@ -40,6 +40,8 @@ def predictions_for(
         "first-candidate": _select_first,
         "random-candidate": _select_random,
         "train-majority-action": _select_majority,
+        "always-ask": lambda case, _majority, seed: _select_majority(case, "ask_question", seed),
+        "always-assess": lambda case, _majority, seed: _select_majority(case, "return_assessment", seed),
         "oracle-self-test": _select_oracle,
     }
     selector = selectors[name]
@@ -65,22 +67,22 @@ def _write_jsonl(path: Path, values: list[dict[str, Any]]) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run deterministic TriageBench baselines")
     parser.add_argument(
-        "--split", default="sample", choices=["sample", "train", "validation", "test"]
+        "--split", default="sample", choices=["sample", "public", "train", "validation", "test"]
     )
     parser.add_argument("--allow-hidden-test", action="store_true")
     parser.add_argument("--baseline", action="append", choices=[
-        "first-candidate", "random-candidate", "train-majority-action", "oracle-self-test"
+        "first-candidate", "random-candidate", "train-majority-action", "always-ask", "always-assess", "oracle-self-test"
     ])
     parser.add_argument("--self-test", action="store_true", help="Allow the oracle scorer self-test")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
-    names = args.baseline or ["first-candidate", "random-candidate", "train-majority-action"]
+    names = args.baseline or ["random-candidate", "always-ask", "always-assess"]
     if "oracle-self-test" in names and not args.self_test:
         parser.error("oracle-self-test requires --self-test and must never be reported as a model result")
     benchmark = load_split(args.split, allow_hidden_test=args.allow_hidden_test)
-    training_split = "train" if args.split != "sample" else "sample"
+    training_split = "sample" if args.split == "sample" else "public" if args.split == "public" else "train"
     train = load_split(training_split)
     action_counts: dict[str, int] = {}
     for case in train.cases:

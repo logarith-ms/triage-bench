@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
-from pathlib import Path
 import json
+from pathlib import Path
+from typing import Any
 
 from inspect_ai import eval
 
@@ -12,13 +13,38 @@ from .receipt import write_run_artifacts
 from .task import triage_bench
 
 
+def openrouter_policy(args: argparse.Namespace, parser: argparse.ArgumentParser) -> dict[str, Any]:
+    if not args.model.startswith("openrouter/"):
+        if args.openrouter_provider or args.probe_provider:
+            parser.error("OpenRouter routing flags require an openrouter/... model")
+        return {}
+    if args.probe_provider:
+        if args.openrouter_provider:
+            parser.error("--probe-provider cannot be combined with --openrouter-provider")
+        if args.limit != 1:
+            parser.error("--probe-provider requires --limit 1")
+        return {"provider": {"allow_fallbacks": True, "data_collection": "deny", "zdr": True}}
+    if not args.openrouter_provider:
+        parser.error("OpenRouter scored runs require --openrouter-provider; probe one case first")
+    return {
+        "provider": {
+            "order": [args.openrouter_provider],
+            "allow_fallbacks": False,
+            "data_collection": "deny",
+            "zdr": True,
+        }
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run a model on TriageBench")
     parser.add_argument("--model", required=True, help="Inspect provider/model identifier")
     parser.add_argument("--model-base-url")
     parser.add_argument("--model-arg", action="append", default=[], metavar="KEY=VALUE")
+    parser.add_argument("--openrouter-provider", help="Pinned OpenRouter provider slug")
+    parser.add_argument("--probe-provider", action="store_true", help="Allow one unpinned case to discover a provider")
     parser.add_argument(
-        "--split", default="sample", choices=["sample", "train", "validation", "test"]
+        "--split", default="sample", choices=["sample", "public", "train", "validation", "test"]
     )
     parser.add_argument("--allow-hidden-test", action="store_true")
     parser.add_argument("--limit", type=int)
@@ -35,7 +61,7 @@ def main() -> None:
     parser.add_argument("--display", default="full", choices=["full", "plain", "log", "none"])
     args = parser.parse_args()
 
-    model_args = {}
+    model_args: dict[str, Any] = {}
     for item in args.model_arg:
         if "=" not in item:
             parser.error(f"--model-arg must use KEY=VALUE: {item}")
@@ -44,13 +70,17 @@ def main() -> None:
             model_args[key] = json.loads(raw_value)
         except json.JSONDecodeError:
             model_args[key] = raw_value
+    routing = openrouter_policy(args, parser)
+    if "provider" in model_args and routing:
+        parser.error("Use OpenRouter routing flags instead of --model-arg provider=...")
+    model_args.update(routing)
 
     root = repository_root()
     log_dir = root / ".local/evals/inspect-logs"
     log_dir.mkdir(parents=True, exist_ok=True)
     try:
         benchmark_task = triage_bench(split=args.split, allow_hidden_test=args.allow_hidden_test)
-    except ValueError as error:
+    except (ValueError, FileNotFoundError) as error:
         parser.error(str(error))
     logs = eval(
         benchmark_task,
@@ -80,3 +110,7 @@ def main() -> None:
     print(f"Run status: {logs[0].status}")
     print(f"Inspect log: {logs[0].location}")
     print(f"Receipt: {written / 'receipt.json'}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,14 @@
+{
+  "stage": "frontier-validation",
+  "benchmark_version": "v0.1",
+  "split": "validation",
+  "epochs": 3,
+  "temperature": 0,
+  "seed": 42,
+  "models": [
+    "openrouter/openai/gpt-5.4",
+    "openrouter/anthropic/claude-sonnet-5",
+    "openrouter/google/gemini-3.5-flash"
+  ],
+  "gate": "Run only after weaker and open models expose no unresolved benchmark defects."
+}

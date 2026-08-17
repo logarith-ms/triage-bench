@@ -1,0 +1,16 @@
+{
+  "stage": "public-100",
+  "benchmark_version": "v0.1",
+  "split": "public",
+  "cases": 100,
+  "epochs": 3,
+  "temperature": 0,
+  "seed": 42,
+  "models": [
+    "openrouter/google/gemma-4-31b-it",
+    "openrouter/deepseek/deepseek-v3.2",
+    "openrouter/qwen/qwen3.5-122b-a10b",
+    "openrouter/mistralai/mistral-large-2512"
+  ],
+  "gate": "Run only after the diagnostic set passes and the prompt, parser, selector and provider endpoints are frozen."
+}

@@ -95,12 +95,26 @@ def write_run_artifacts(log: EvalLog, split: str, output: Path) -> Path:
         attempted_case_ids=attempted_case_ids,
     )
     prediction_body = "".join(stable_json(value) + "\n" for value in predictions)
+    returned_models = sorted({response["returned_model"] for response in responses if response["returned_model"]})
+    returned_providers = sorted({
+        response["output_metadata"].get("provider")
+        for response in responses
+        if isinstance(response["output_metadata"], dict) and response["output_metadata"].get("provider")
+    })
+    requested_provider_order = (
+        (log.eval.model_args or {}).get("provider", {}).get("order", [])
+        if isinstance((log.eval.model_args or {}).get("provider"), dict)
+        else []
+    )
     receipt = {
         "benchmark": "TriageBench",
         "benchmark_version": "v0.1",
         "split": split,
         "status": log.status,
         "model": log.eval.model,
+        "returned_models": returned_models,
+        "returned_providers": returned_providers,
+        "requested_provider_order": requested_provider_order,
         "model_base_url": log.eval.model_base_url,
         "model_args": log.eval.model_args,
         "generate_config": _serialise(log.eval.model_generate_config),
@@ -132,7 +146,7 @@ def write_run_artifacts(log: EvalLog, split: str, output: Path) -> Path:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Export TriageBench predictions and receipt")
     parser.add_argument("log", type=Path)
-    parser.add_argument("--split", choices=["sample", "train", "validation", "test"])
+    parser.add_argument("--split", choices=["sample", "public", "train", "validation", "test"])
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     log = read_eval_log(args.log, resolve_attachments="core")

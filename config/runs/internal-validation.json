@@ -1,0 +1,11 @@
+{
+  "stage": "internal-validation",
+  "benchmark_version": "v0.1",
+  "split": "validation",
+  "cases": 308,
+  "epochs": 3,
+  "temperature": 0,
+  "seed": 42,
+  "storage": "gs://logarithms-research-prod-hidden-evals/triage-bench/v0.1/internal-validation/",
+  "gate": "Private run after the public configuration is frozen. Results may inform model selection but not benchmark-task edits."
+}

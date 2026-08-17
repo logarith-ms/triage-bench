@@ -63,6 +63,14 @@ class CoreTests(unittest.TestCase):
         second = predictions_for("random-candidate", cases, majority_action="return_assessment", seed=42)
         self.assertEqual(first, second)
 
+class ConfidenceIntervalTests(unittest.TestCase):
+    def test_perfect_score_has_bounded_confidence_interval(self):
+        case = sample_case()
+        metrics = score_predictions([case], [], [{"case_id": case["case_id"], **case["reference"]}])
+        interval = metrics["confidence_intervals_95"]["exact_decision_accuracy"]
+        self.assertGreaterEqual(interval["low"], 0)
+        self.assertEqual(interval["high"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()
