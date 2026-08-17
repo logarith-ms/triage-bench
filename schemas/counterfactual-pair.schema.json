@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labs.logarith.ms/schemas/triage-bench-pair/v0.1.json",
+  "title": "TriageBench counterfactual pair",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["pair_id", "benchmark_version", "baseline", "counterfactual", "expected_effect"],
+  "properties": {
+    "pair_id": { "type": "string", "minLength": 1 },
+    "benchmark_version": { "const": "v0.1" },
+    "baseline": { "$ref": "#/$defs/branch" },
+    "counterfactual": { "$ref": "#/$defs/branch" },
+    "expected_effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["destination_changed", "transition_kind_changed"],
+      "properties": {
+        "destination_changed": { "type": "boolean" },
+        "transition_kind_changed": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "branch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_id"],
+      "properties": { "case_id": { "type": "string", "minLength": 1 } }
+    }
+  }
+}

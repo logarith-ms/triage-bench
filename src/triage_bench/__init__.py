@@ -1,0 +1,3 @@
+"""Public evaluation harness for TriageBench."""
+
+__version__ = "0.1.0"

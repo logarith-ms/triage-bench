@@ -1,0 +1,14 @@
+{
+  "benchmark": "TriageBench",
+  "benchmark_version": "v0.1",
+  "split": "sample",
+  "fixture": true,
+  "counts": {
+    "cases": 6,
+    "counterfactual_pairs": 3
+  },
+  "file_sha256": {
+    "cases.jsonl": "a1e4e2d6831d64ca0ba0c6ab4a1d1a4b98e1362ad3a345092624af4044dda2eb",
+    "counterfactual-pairs.jsonl": "86b0d129c5f5ecb6163fa5a011761deb239eb1fef65403b23466b62da963fe08"
+  }
+}

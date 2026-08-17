@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labs.logarith.ms/schemas/triage-bench-public-sample/v0.1.json",
+  "title": "TriageBench public development fixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "benchmark_version", "geography", "language", "pathway", "dialogue_prefix", "candidates", "reference"],
+  "properties": {
+    "case_id": { "type": "string", "minLength": 1 },
+    "benchmark_version": { "const": "v0.1" },
+    "geography": { "const": "GB" },
+    "language": { "const": "en-GB" },
+    "pathway": { "type": "object" },
+    "dialogue_prefix": { "type": "array", "minItems": 2 },
+    "candidates": { "type": "array", "minItems": 1 },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action_type", "target_node_id"],
+      "properties": {
+        "action_type": { "enum": ["ask_question", "return_assessment"] },
+        "target_node_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

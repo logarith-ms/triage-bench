@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labs.logarith.ms/schemas/triage-bench-prediction/v0.1.json",
+  "title": "TriageBench prediction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "action_type", "target_node_id"],
+  "properties": {
+    "case_id": { "type": "string", "minLength": 1 },
+    "action_type": { "enum": ["ask_question", "return_assessment"] },
+    "target_node_id": { "type": "string", "minLength": 1 }
+  }
+}

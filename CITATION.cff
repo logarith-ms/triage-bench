@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: TriageBench
+message: Please cite the TriageBench paper when using this evaluation harness.
+type: software
+authors:
+  - family-names: Adey
+    given-names: Tomiwa
+repository-code: https://github.com/logarith-ms/triage-bench
+url: https://labs.logarith.ms/benchmarks/triage-bench
+version: 0.1.0
