@@ -24,6 +24,11 @@ triage-bench-score = "triage_bench.score:main"
 [tool.hatch.build.targets.wheel]
 packages = ["src/triage_bench"]
 
+[dependency-groups]
+dev = [
+    "pytest>=8,<9",
+]
+
 [tool.hatch.build]
 include = [
   "src/triage_bench/**/*.py",
