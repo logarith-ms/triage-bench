@@ -2,7 +2,7 @@
 
 TriageBench evaluates whether a model can follow a sequential UK clinical-triage pathway: ask the right next question, or stop and return the correct assessment route.
 
-[Benchmark overview](https://labs.logarith.ms/benchmarks/triage-bench) · [Research article](https://labs.logarith.ms/research/triage-bench) · [Hugging Face](https://huggingface.co/datasets/logarith-ms/triage-bench)
+[Benchmark overview](https://labs.logarith.ms/benchmarks/triage-bench) · [Research article](https://labs.logarith.ms/research/triage-bench)
 
 ## What is public
 
