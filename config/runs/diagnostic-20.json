@@ -10,8 +10,18 @@
   "maximum_cost_usd_per_model": 1,
   "models": [
     "openrouter/ibm-granite/granite-4.1-8b",
-    "openrouter/mistralai/mistral-small-2603",
+    "openrouter/meta-llama/llama-3.1-8b-instruct",
     "openrouter/qwen/qwen3.5-9b"
   ],
+  "providers": {
+    "openrouter/ibm-granite/granite-4.1-8b": "CoreWeave",
+    "openrouter/meta-llama/llama-3.1-8b-instruct": "CoreWeave",
+    "openrouter/qwen/qwen3.5-9b": "DeepInfra"
+  },
+  "model_options": {
+    "openrouter/qwen/qwen3.5-9b": {
+      "reasoning_effort": "none"
+    }
+  },
   "gate": "Inspect parser failures, invalid choices, ambiguous tasks and counterfactual failures before freezing v0.1."
 }
