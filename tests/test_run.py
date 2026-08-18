@@ -3,7 +3,9 @@ from argparse import ArgumentParser, Namespace
 from unittest import TestCase
 
 from triage_bench.data import repository_root
-from triage_bench.run import openrouter_policy
+from inspect_ai.model import get_model_info
+
+from triage_bench.run import openrouter_policy, register_model_cost
 
 
 class OpenRouterPolicyTests(TestCase):
@@ -63,3 +65,19 @@ class OpenRouterPolicyTests(TestCase):
                     {"input", "output", "input_cache_write", "input_cache_read"},
                 )
                 self.assertTrue(all(value >= 0 for value in costs[model].values()))
+
+    def test_unknown_openrouter_model_can_receive_cost_data(self) -> None:
+        model = "openrouter/mistralai/ministral-3b-2512"
+        register_model_cost(
+            model,
+            repository_root() / "config/openrouter-costs-2026-08-18.json",
+            ArgumentParser(),
+            required=True,
+        )
+        info = get_model_info(model)
+        self.assertIsNotNone(info)
+        assert info is not None
+        self.assertIsNotNone(info.cost)
+        assert info.cost is not None
+        self.assertEqual(info.cost.input, 0.1)
+        self.assertEqual(info.cost.output, 0.1)
