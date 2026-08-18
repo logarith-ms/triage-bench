@@ -1,0 +1,110 @@
+{
+  "benchmark": "TriageBench",
+  "benchmark_version": "v0.1",
+  "release": "public-100",
+  "evaluation_commit": "aa7b351c5c303afd376569c88d907b6ea91c0233",
+  "prompt_version": "triage-bench-v0.1-prompt-2",
+  "cases": 100,
+  "counterfactual_pairs": 152,
+  "cases_sha256": "743863a91e92eaa0e976ae9370aab8d5f7ef6b7383e7d81835c5d0351f9cf76c",
+  "pairs_sha256": "4adc08c60f15b4a844c9238acb64c86875310dff6104ddf4c82b74527d75b79d",
+  "settings": {
+    "epochs": 1,
+    "temperature": 0.0,
+    "seed": 42,
+    "max_tokens": 512,
+    "structured_output": true,
+    "provider_fallbacks": false,
+    "provider_data_collection": "deny",
+    "zero_data_retention": true
+  },
+  "results": [
+    {
+      "rank": 1,
+      "display_name": "DeepSeek V3.2",
+      "model": "openrouter/deepseek/deepseek-v3.2",
+      "returned_model": "deepseek/deepseek-v3.2",
+      "provider": "DeepInfra",
+      "completed_at": "2026-08-18T00:41:53+00:00",
+      "metrics": {
+        "exact_decision_accuracy": 0.81,
+        "exact_decision_accuracy_ci_95": {
+          "low": 0.7222097592919214,
+          "high": 0.8748534600729574
+        },
+        "current_action_accuracy": 0.93,
+        "next_question_accuracy": 0.6333333333333333,
+        "assessment_route_accuracy": 0.8857142857142857,
+        "counterfactual_pair_accuracy": 0.75,
+        "valid_output_rate": 1.0
+      },
+      "usage": {
+        "input_tokens": 30232,
+        "output_tokens": 1503,
+        "total_tokens": 86519,
+        "total_cost_usd": 0.016102056000000007
+      },
+      "predictions_sha256": "69e4d3c61b34ebda408c26d6fded1c07da629f67bd01cc8627322e399594def5",
+      "model_inputs_sha256": "95aa95523af59963177fecca0b94f7ec47a6445505c7ce5ea34a577136c2a20d",
+      "source_receipt_sha256": "84fa91dd95688c5ed9fb29b5d275c9f0e5162af8029ace1f01f520ae4e882dad"
+    },
+    {
+      "rank": 2,
+      "display_name": "Gemma 4 31B",
+      "model": "openrouter/google/gemma-4-31b-it",
+      "returned_model": "google/gemma-4-31b-it",
+      "provider": "CoreWeave",
+      "completed_at": "2026-08-18T00:37:35+00:00",
+      "metrics": {
+        "exact_decision_accuracy": 0.8,
+        "exact_decision_accuracy_ci_95": {
+          "low": 0.7111690380734977,
+          "high": 0.8666340774409013
+        },
+        "current_action_accuracy": 0.92,
+        "next_question_accuracy": 0.6,
+        "assessment_route_accuracy": 0.8857142857142857,
+        "counterfactual_pair_accuracy": 0.7631578947368421,
+        "valid_output_rate": 1.0
+      },
+      "usage": {
+        "input_tokens": 64016,
+        "output_tokens": 2033,
+        "total_tokens": 93249,
+        "total_cost_usd": 0.009812820000000002
+      },
+      "predictions_sha256": "1595335d7fbe3a9c2ac668e2c510144f04ea12e17f68d5c18269614e224f0526",
+      "model_inputs_sha256": "95aa95523af59963177fecca0b94f7ec47a6445505c7ce5ea34a577136c2a20d",
+      "source_receipt_sha256": "5d40a110db4374650de9e5e863aa57c3c967b59aac3db2735bd4d772a3c3597d"
+    },
+    {
+      "rank": 3,
+      "display_name": "Llama 4 Maverick",
+      "model": "openrouter/meta-llama/llama-4-maverick",
+      "returned_model": "meta-llama/llama-4-maverick",
+      "provider": "DeepInfra",
+      "completed_at": "2026-08-18T00:42:33+00:00",
+      "metrics": {
+        "exact_decision_accuracy": 0.79,
+        "exact_decision_accuracy_ci_95": {
+          "low": 0.7001985069803768,
+          "high": 0.8583445046835422
+        },
+        "current_action_accuracy": 0.92,
+        "next_question_accuracy": 0.6666666666666666,
+        "assessment_route_accuracy": 0.8428571428571429,
+        "counterfactual_pair_accuracy": 0.618421052631579,
+        "valid_output_rate": 1.0
+      },
+      "usage": {
+        "input_tokens": 85692,
+        "output_tokens": 1501,
+        "total_tokens": 87193,
+        "total_cost_usd": 0.018339199999999996
+      },
+      "predictions_sha256": "35c4fc4717f1e832016387db6b1ed562471e9f316b06600bfd0828d8d14120de",
+      "model_inputs_sha256": "95aa95523af59963177fecca0b94f7ec47a6445505c7ce5ea34a577136c2a20d",
+      "source_receipt_sha256": "b0d6835f2c9c57ff09b00b6e0bcc3c96f97e589d2c607042064f66f81d5b1eed"
+    }
+  ]
+}
