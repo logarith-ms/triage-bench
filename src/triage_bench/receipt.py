@@ -78,6 +78,14 @@ def _model_call_metadata(sample: Any) -> list[dict[str, str]]:
     return calls
 
 
+def _sample_error_message(sample: Any) -> str | None:
+    error = getattr(sample, "error", None)
+    if error is None:
+        return None
+    message = getattr(error, "message", None)
+    return str(message if message is not None else error)
+
+
 def write_run_artifacts(log: EvalLog, split: str, output: Path) -> Path:
     benchmark = load_split(split, allow_hidden_test=True)
     cases_by_id = {case["case_id"]: case for case in benchmark.cases}
@@ -106,6 +114,7 @@ def write_run_artifacts(log: EvalLog, split: str, output: Path) -> Path:
             "returned_model": sample.output.model if sample.output is not None else None,
             "output_metadata": sample.output.metadata if sample.output is not None else None,
             "model_calls": model_calls,
+            "sample_error": _sample_error_message(sample),
             "total_time_seconds": sample.total_time,
             "model_usage": {model: _serialise(usage) for model, usage in sample.model_usage.items()},
         })
@@ -130,11 +139,14 @@ def write_run_artifacts(log: EvalLog, split: str, output: Path) -> Path:
         if isinstance((log.eval.model_args or {}).get("provider"), dict)
         else []
     )
+    sample_errors = sum(1 for response in responses if response["sample_error"])
     receipt = {
         "benchmark": "TriageBench",
         "benchmark_version": "v0.1",
         "split": split,
-        "status": log.status,
+        "status": "error" if sample_errors else log.status,
+        "inspect_status": log.status,
+        "sample_errors": sample_errors,
         "model": log.eval.model,
         "returned_models": returned_models,
         "returned_providers": returned_providers,
