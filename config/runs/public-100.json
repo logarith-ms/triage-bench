@@ -3,15 +3,20 @@
   "benchmark_version": "v0.1",
   "split": "public",
   "cases": 100,
-  "epochs": 3,
+  "epochs": 1,
   "temperature": 0,
   "seed": 42,
   "max_tokens": 512,
+  "maximum_cost_usd_per_model": 0.75,
   "models": [
     "openrouter/google/gemma-4-31b-it",
     "openrouter/deepseek/deepseek-v3.2",
-    "openrouter/qwen/qwen3.5-122b-a10b",
-    "openrouter/mistralai/mistral-large-2512"
+    "openrouter/meta-llama/llama-4-maverick"
   ],
+  "providers": {
+    "openrouter/google/gemma-4-31b-it": "CoreWeave",
+    "openrouter/deepseek/deepseek-v3.2": "DeepInfra",
+    "openrouter/meta-llama/llama-4-maverick": "DeepInfra"
+  },
   "gate": "Run only after the diagnostic set passes and the prompt, parser, selector and provider endpoints are frozen."
 }
