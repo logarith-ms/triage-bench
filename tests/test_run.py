@@ -34,9 +34,22 @@ class OpenRouterPolicyTests(TestCase):
                     "allow_fallbacks": False,
                     "data_collection": "deny",
                     "zdr": True,
+                    "require_parameters": True,
                 }
             },
         )
+
+    def test_prediction_schema_requires_only_the_candidate_contract(self) -> None:
+        from triage_bench.run import PREDICTION_RESPONSE_SCHEMA
+
+        schema = PREDICTION_RESPONSE_SCHEMA.json_schema.model_dump(exclude_none=True)
+        self.assertEqual(schema["required"], ["action_type", "target_node_id"])
+        self.assertFalse(schema["additionalProperties"])
+        self.assertEqual(
+            schema["properties"]["action_type"]["enum"],
+            ["ask_question", "return_assessment"],
+        )
+        self.assertEqual(schema["properties"]["target_node_id"]["type"], "string")
 
     def test_probe_is_limited_to_one_case(self) -> None:
         args = Namespace(
