@@ -7,11 +7,36 @@ from pathlib import Path
 from typing import Any
 
 from inspect_ai import eval
-from inspect_ai.model import ModelCost, ModelInfo, get_model_info, set_model_info
+from inspect_ai.model import (
+    ModelCost,
+    ModelInfo,
+    ResponseSchema,
+    get_model_info,
+    set_model_info,
+)
 
 from .data import repository_root
 from .receipt import write_run_artifacts
 from .task import triage_bench
+
+
+PREDICTION_RESPONSE_SCHEMA = ResponseSchema(
+    name="triage_decision",
+    description="One candidate-bound clinical-triage decision",
+    strict=True,
+    json_schema={
+        "type": "object",
+        "properties": {
+            "action_type": {
+                "type": "string",
+                "enum": ["ask_question", "return_assessment"],
+            },
+            "target_node_id": {"type": "string"},
+        },
+        "required": ["action_type", "target_node_id"],
+        "additionalProperties": False,
+    },
+)
 
 
 def openrouter_policy(args: argparse.Namespace, parser: argparse.ArgumentParser) -> dict[str, Any]:
@@ -24,7 +49,14 @@ def openrouter_policy(args: argparse.Namespace, parser: argparse.ArgumentParser)
             parser.error("--probe-provider cannot be combined with --openrouter-provider")
         if args.limit != 1:
             parser.error("--probe-provider requires --limit 1")
-        return {"provider": {"allow_fallbacks": True, "data_collection": "deny", "zdr": True}}
+        return {
+            "provider": {
+                "allow_fallbacks": True,
+                "data_collection": "deny",
+                "zdr": True,
+                "require_parameters": True,
+            }
+        }
     if not args.openrouter_provider:
         parser.error("OpenRouter scored runs require --openrouter-provider; probe one case first")
     return {
@@ -33,6 +65,7 @@ def openrouter_policy(args: argparse.Namespace, parser: argparse.ArgumentParser)
             "allow_fallbacks": False,
             "data_collection": "deny",
             "zdr": True,
+            "require_parameters": True,
         }
     }
 
@@ -132,6 +165,7 @@ def main() -> None:
         temperature=args.temperature,
         seed=args.seed,
         max_tokens=args.max_tokens,
+        response_schema=PREDICTION_RESPONSE_SCHEMA,
         cost_limit=args.cost_limit,
         reasoning_effort=args.reasoning_effort,
         fail_on_error=False,
