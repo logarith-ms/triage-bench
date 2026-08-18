@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from inspect_ai import eval
+from inspect_ai.model import ModelCost, ModelInfo, get_model_info, set_model_info
 
 from .data import repository_root
 from .receipt import write_run_artifacts
@@ -34,6 +35,33 @@ def openrouter_policy(args: argparse.Namespace, parser: argparse.ArgumentParser)
             "zdr": True,
         }
     }
+
+
+def register_model_cost(
+    model: str,
+    config_path: Path | None,
+    parser: argparse.ArgumentParser,
+    required: bool,
+) -> None:
+    if config_path is None:
+        if required:
+            parser.error("--cost-limit requires --model-cost-config")
+        return
+    try:
+        cost_config = json.loads(config_path.read_text())
+    except (OSError, json.JSONDecodeError) as error:
+        parser.error(f"Unable to read model cost config {config_path}: {error}")
+    raw_cost = cost_config.get(model)
+    if raw_cost is None:
+        if required:
+            parser.error(f"No model cost data for {model} in {config_path}")
+        return
+
+    info = get_model_info(model) or ModelInfo(
+        organization=model.split("/")[-2] if "/" in model else None,
+        model=model.rsplit("/", 1)[-1],
+    )
+    set_model_info(model, info.model_copy(update={"cost": ModelCost(**raw_cost)}))
 
 
 def main() -> None:
@@ -80,6 +108,7 @@ def main() -> None:
     if "provider" in model_args and routing:
         parser.error("Use OpenRouter routing flags instead of --model-arg provider=...")
     model_args.update(routing)
+    register_model_cost(args.model, args.model_cost_config, parser, args.cost_limit is not None)
 
     root = repository_root()
     log_dir = root / ".local/evals/inspect-logs"
@@ -104,7 +133,6 @@ def main() -> None:
         seed=args.seed,
         max_tokens=args.max_tokens,
         cost_limit=args.cost_limit,
-        model_cost_config=str(args.model_cost_config) if args.model_cost_config else None,
         reasoning_effort=args.reasoning_effort,
         fail_on_error=False,
     )
