@@ -78,7 +78,7 @@ def main() -> None:
     parser.add_argument("--limit", type=int)
     parser.add_argument("--temperature", type=float, default=0)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--max-tokens", type=int, default=120)
+    parser.add_argument("--max-tokens", type=int, default=512)
     parser.add_argument("--max-connections", type=int, default=10)
     parser.add_argument("--max-samples", type=int, default=10)
     parser.add_argument("--max-retries", type=int, default=3)

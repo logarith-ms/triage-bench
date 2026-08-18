@@ -6,6 +6,7 @@
   "epochs": 3,
   "temperature": 0,
   "seed": 42,
+  "max_tokens": 512,
   "storage": "gs://logarithms-research-prod-hidden-evals/triage-bench/v0.1/internal-validation/",
   "gate": "Private run after the public configuration is frozen. Results may inform model selection but not benchmark-task edits."
 }

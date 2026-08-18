@@ -59,6 +59,25 @@ def _usage(log: EvalLog) -> dict[str, Any]:
     }
 
 
+def _model_call_metadata(sample: Any) -> list[dict[str, str]]:
+    calls: list[dict[str, str]] = []
+    for event in sample.events or []:
+        if getattr(event, "event", None) != "model":
+            continue
+        call = getattr(event, "call", None)
+        response = getattr(call, "response", None)
+        if not isinstance(response, dict):
+            continue
+        metadata = {
+            key: str(response[key])
+            for key in ("id", "model", "provider")
+            if response.get(key) is not None
+        }
+        if metadata:
+            calls.append(metadata)
+    return calls
+
+
 def write_run_artifacts(log: EvalLog, split: str, output: Path) -> Path:
     benchmark = load_split(split, allow_hidden_test=True)
     cases_by_id = {case["case_id"]: case for case in benchmark.cases}
@@ -76,6 +95,7 @@ def write_run_artifacts(log: EvalLog, split: str, output: Path) -> Path:
         raw = sample.output.completion if sample.output is not None else ""
         parsed = parse_prediction(raw, case["candidates"])
         prediction = parsed.as_prediction(case_id)
+        model_calls = _model_call_metadata(sample)
         if prediction is not None:
             predictions.append(prediction)
         responses.append({
@@ -85,6 +105,7 @@ def write_run_artifacts(log: EvalLog, split: str, output: Path) -> Path:
             "parse_error": parsed.error,
             "returned_model": sample.output.model if sample.output is not None else None,
             "output_metadata": sample.output.metadata if sample.output is not None else None,
+            "model_calls": model_calls,
             "total_time_seconds": sample.total_time,
             "model_usage": {model: _serialise(usage) for model, usage in sample.model_usage.items()},
         })
@@ -96,11 +117,14 @@ def write_run_artifacts(log: EvalLog, split: str, output: Path) -> Path:
     )
     prediction_body = "".join(stable_json(value) + "\n" for value in predictions)
     returned_models = sorted({response["returned_model"] for response in responses if response["returned_model"]})
-    returned_providers = sorted({
-        response["output_metadata"].get("provider")
-        for response in responses
-        if isinstance(response["output_metadata"], dict) and response["output_metadata"].get("provider")
-    })
+    returned_providers = sorted(
+        {
+            call["provider"]
+            for response in responses
+            for call in response["model_calls"]
+            if call.get("provider")
+        }
+    )
     requested_provider_order = (
         (log.eval.model_args or {}).get("provider", {}).get("order", [])
         if isinstance((log.eval.model_args or {}).get("provider"), dict)
