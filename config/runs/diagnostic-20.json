@@ -6,7 +6,8 @@
   "epochs": 1,
   "temperature": 0,
   "seed": 42,
-  "maximum_cost_usd_per_model": 5,
+  "max_tokens": 512,
+  "maximum_cost_usd_per_model": 1,
   "models": [
     "openrouter/mistralai/ministral-3b-2512",
     "openrouter/mistralai/ministral-8b-2512",

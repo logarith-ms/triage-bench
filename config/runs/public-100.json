@@ -6,6 +6,7 @@
   "epochs": 3,
   "temperature": 0,
   "seed": 42,
+  "max_tokens": 512,
   "models": [
     "openrouter/google/gemma-4-31b-it",
     "openrouter/deepseek/deepseek-v3.2",
