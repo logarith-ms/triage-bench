@@ -43,6 +43,28 @@ class CoreTests(unittest.TestCase):
         self.assertFalse(parse_prediction('{"action_type":"return_assessment","target_node_id":"999"}', candidates).valid)
         self.assertFalse(parse_prediction('{"action_type":"return_assessment","target_node_id":"3","reason":"x"}', candidates).valid)
 
+    def test_parser_normalizes_integer_node_ids(self):
+        candidates = sample_case()["candidates"]
+        parsed = parse_prediction(
+            '{"action_type":"return_assessment","target_node_id":3}',
+            candidates,
+        )
+
+        self.assertTrue(parsed.valid)
+        self.assertEqual(parsed.target_node_id, "3")
+        self.assertFalse(
+            parse_prediction(
+                '{"action_type":"return_assessment","target_node_id":3.5}',
+                candidates,
+            ).valid
+        )
+        self.assertFalse(
+            parse_prediction(
+                '{"action_type":"return_assessment","target_node_id":true}',
+                candidates,
+            ).valid
+        )
+
     def test_oracle_scores_one(self):
         case = sample_case()
         predictions = [{"case_id": case["case_id"], **case["reference"]}]
