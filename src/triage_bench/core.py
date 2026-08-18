@@ -112,6 +112,8 @@ def parse_prediction(raw: str, candidates: list[dict[str, Any]]) -> ParsedPredic
         return ParsedPrediction(None, None, "prediction_keys_must_match_contract")
     action_type = value.get("action_type")
     target_node_id = value.get("target_node_id")
+    if isinstance(target_node_id, int) and not isinstance(target_node_id, bool):
+        target_node_id = str(target_node_id)
     if action_type not in ALLOWED_ACTIONS or not isinstance(target_node_id, str):
         return ParsedPrediction(None, None, "prediction_values_are_invalid")
     matching = [
