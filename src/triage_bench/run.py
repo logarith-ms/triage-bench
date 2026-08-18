@@ -145,6 +145,9 @@ def main() -> None:
     print(f"Run status: {logs[0].status}")
     print(f"Inspect log: {logs[0].location}")
     print(f"Receipt: {written / 'receipt.json'}")
+    sample_errors = sum(1 for sample in logs[0].samples or [] if sample.error is not None)
+    if sample_errors:
+        raise SystemExit(f"Run completed with {sample_errors} sample error(s)")
 
 
 if __name__ == "__main__":

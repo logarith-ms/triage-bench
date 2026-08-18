@@ -9,8 +9,8 @@
   "max_tokens": 512,
   "maximum_cost_usd_per_model": 1,
   "models": [
-    "openrouter/mistralai/ministral-3b-2512",
-    "openrouter/mistralai/ministral-8b-2512",
+    "openrouter/ibm-granite/granite-4.1-8b",
+    "openrouter/mistralai/mistral-small-2603",
     "openrouter/qwen/qwen3.5-9b"
   ],
   "gate": "Inspect parser failures, invalid choices, ambiguous tasks and counterfactual failures before freezing v0.1."

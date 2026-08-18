@@ -1,7 +1,7 @@
 from types import SimpleNamespace
 from unittest import TestCase
 
-from triage_bench.receipt import _model_call_metadata
+from triage_bench.receipt import _model_call_metadata, _sample_error_message
 
 
 class ModelCallMetadataTests(TestCase):
@@ -39,3 +39,18 @@ class ModelCallMetadataTests(TestCase):
         )
 
         self.assertEqual(_model_call_metadata(sample), [])
+
+
+class SampleErrorTests(TestCase):
+    def test_reads_sample_error_without_copying_traceback(self) -> None:
+        sample = SimpleNamespace(
+            error=SimpleNamespace(message="No zero-retention endpoint", traceback="private")
+        )
+
+        self.assertEqual(
+            _sample_error_message(sample),
+            "No zero-retention endpoint",
+        )
+
+    def test_missing_sample_error_is_none(self) -> None:
+        self.assertIsNone(_sample_error_message(SimpleNamespace(error=None)))
