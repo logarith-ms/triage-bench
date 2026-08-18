@@ -7,6 +7,8 @@
   "temperature": 0,
   "seed": 42,
   "max_tokens": 512,
+  "max_connections": 2,
+  "max_samples": 2,
   "maximum_cost_usd_per_model": 0.75,
   "models": [
     "openrouter/google/gemma-4-31b-it",
