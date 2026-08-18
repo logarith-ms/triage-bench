@@ -5,7 +5,7 @@ import json
 from dataclasses import dataclass
 from typing import Any, Iterable
 
-PROMPT_VERSION = "triage-bench-v0.1-prompt-1"
+PROMPT_VERSION = "triage-bench-v0.1-prompt-2"
 ALLOWED_ACTIONS = {"ask_question", "return_assessment"}
 FORBIDDEN_VISIBLE_KEYS = {
     "reference", "graph_trace", "source", "source_edge_id",
@@ -59,16 +59,16 @@ def build_prompt(case: dict[str, Any]) -> str:
         for message in visible["dialogue_prefix"]
     )
     candidates = "\n\n".join(
-        f"Candidate {index}\n"
         f"action_type: {candidate['action_type']}\n"
         f"target_node_id: {candidate['target_node_id']}\n"
         f"{_candidate_content(candidate)}"
-        for index, candidate in enumerate(visible["candidates"], start=1)
+        for candidate in visible["candidates"]
     )
     return f"""You are completing a clinical-triage benchmark.
 
 Choose the single doctor-authored next action that follows from the dialogue.
 Use only one supplied candidate. Do not add medical advice or prose.
+Return the candidate's exact target_node_id, not its position in the list.
 
 Dialogue so far:
 {dialogue}

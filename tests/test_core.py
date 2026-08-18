@@ -31,6 +31,8 @@ class CoreTests(unittest.TestCase):
     def test_prompt_exposes_candidates_but_not_reference(self):
         prompt = build_prompt(sample_case())
         self.assertIn("target_node_id: 3", prompt)
+        self.assertIn("exact target_node_id", prompt)
+        self.assertNotIn("Candidate 1", prompt)
         self.assertNotIn('"reference"', prompt)
         self.assertNotIn("graph_trace", prompt)
         self.assertNotIn("private", json.dumps(model_input(sample_case())))
