@@ -21,6 +21,18 @@ Licensed training data, the remaining internal-validation cases and the hidden t
 
 TriageBench measures pathway-following decisions. It is not evidence that a model is ready for patient care.
 
+## Public leaderboard
+
+Measured on the transparent 100-case public v0.1 set with one deterministic pass. These are development-set results, not hidden-test or clinical-validation results.
+
+| Model | Exact decision | Action | Ask | Assess | Counterfactual |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| DeepSeek V3.2 | **81.0%** | 93.0% | 63.3% | 88.6% | 75.0% |
+| Gemma 4 31B | 80.0% | 92.0% | 60.0% | 88.6% | **76.3%** |
+| Llama 4 Maverick | 79.0% | 92.0% | **66.7%** | 84.3% | 61.8% |
+
+All three runs produced valid structured output for all 100 cases. Exact-decision 95% confidence intervals overlap, so the one-point differences should not be treated as a definitive model ranking. See the [machine-readable results](results/v0.1/public-100.json) for providers, settings, hashes, confidence intervals and costs.
+
 ## Quick start
 
 Install [uv](https://docs.astral.sh/uv/), then run the fictional fixture:

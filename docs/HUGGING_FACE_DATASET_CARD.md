@@ -52,6 +52,18 @@ Each case contains the dialogue so far, supplied next-action candidates, doctor-
 
 The primary metric is exact next-decision accuracy. Supporting metrics measure action choice, target choice, question and assessment accuracy, structured-output validity, counterfactual consistency and 95% confidence intervals.
 
+## Public leaderboard
+
+Measured on the transparent 100-case public v0.1 set with one deterministic pass. These are development-set results, not hidden-test or clinical-validation results.
+
+| Model | Exact decision | Action | Ask | Assess | Counterfactual |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| DeepSeek V3.2 | **81.0%** | 93.0% | 63.3% | 88.6% | 75.0% |
+| Gemma 4 31B | 80.0% | 92.0% | 60.0% | 88.6% | **76.3%** |
+| Llama 4 Maverick | 79.0% | 92.0% | **66.7%** | 84.3% | 61.8% |
+
+All three runs returned valid structured output for all 100 cases. Exact-decision 95% confidence intervals overlap. Providers, settings, hashes, confidence intervals and costs are published in the [machine-readable results](https://github.com/logarith-ms/triage-bench/blob/main/results/v0.1/public-100.json).
+
 ## Run the benchmark
 
 ```bash

@@ -160,8 +160,25 @@ Measured on all 408 validation cases with seed `42`:
 | Train-majority action, then first matching candidate | 38.2% | 27.1% |
 | Source oracle scorer self-test | 100.0% | 100.0% |
 
-The oracle is a scorer check, not a model result. No hosted or open-weight model
-score has been reported yet.
+The oracle is a scorer check, not a model result.
+
+## Public model results
+
+Measured on the transparent 100-case public v0.1 set with one deterministic
+pass, temperature `0` and seed `42`. These are development-set results, not
+hidden-test or clinical-validation results.
+
+| Model | Exact decision | Action | Ask | Assess | Counterfactual |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| DeepSeek V3.2 | **81.0%** | 93.0% | 63.3% | 88.6% | 75.0% |
+| Gemma 4 31B | 80.0% | 92.0% | 60.0% | 88.6% | **76.3%** |
+| Llama 4 Maverick | 79.0% | 92.0% | **66.7%** | 84.3% | 61.8% |
+
+Every response passed the structured-output validator. The exact-decision 95%
+confidence intervals overlap, so the small differences are not a definitive
+model ranking. The complete public metadata, including pinned providers,
+settings, hashes, confidence intervals and costs, is stored in
+[`results/v0.1/public-100.json`](../results/v0.1/public-100.json).
 
 ## Limitations
 
