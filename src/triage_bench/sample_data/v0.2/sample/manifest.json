@@ -1,0 +1,16 @@
+{
+  "benchmark": "TriageBench",
+  "benchmark_version": "v0.2",
+  "counts": {
+    "tasks": 6,
+    "matched_pairs": 3,
+    "ask_question": 3,
+    "return_assessment": 3
+  },
+  "file_sha256": {
+    "tasks.jsonl": "c2ca66ad379c68f291d9a62c26bb706c371baca988be8e2deb0467bdd78734fd",
+    "matched-pairs.jsonl": "8c915faf90f322b94509c5620ba32d4d5dfe2d85ee4f3e90ccadf5e4dafb97c4"
+  },
+  "fixture": true,
+  "release_status": "synthetic_fixture"
+}

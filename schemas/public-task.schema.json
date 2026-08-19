@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labs.logarith.ms/schemas/triage-bench-public-task/v0.2.json",
+  "title": "TriageBench public task",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["task_id", "benchmark_version", "model_input", "reference", "task_sha256"],
+  "properties": {
+    "task_id": { "type": "string", "pattern": "^triage-v02-[0-9]{3}$" },
+    "benchmark_version": { "const": "v0.2" },
+    "task_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "model_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conversation", "geography", "instruction", "language", "options"],
+      "properties": {
+        "conversation": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["role", "content"],
+            "properties": {
+              "role": { "enum": ["assistant", "patient"] },
+              "content": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "geography": { "const": "GB" },
+        "instruction": { "type": "string", "minLength": 1 },
+        "language": { "const": "en-GB" },
+        "options": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["option_id", "text"],
+            "properties": {
+              "option_id": { "enum": ["A", "B", "C", "D"] },
+              "text": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["correct_option_id", "required_action", "task_design", "task_form"],
+      "properties": {
+        "correct_option_id": { "enum": ["A", "B", "C", "D"] },
+        "matched_pair_id": { "type": "string" },
+        "required_action": { "enum": ["ask_question", "return_assessment"] },
+        "task_design": { "enum": ["single", "paired"] },
+        "task_form": { "enum": ["next_question", "assessment", "stop_or_continue"] }
+      }
+    }
+  }
+}

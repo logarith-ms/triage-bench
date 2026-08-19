@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "triage-bench"
+version = "0.2.0"
+description = "Evaluation harness for sequential UK clinical-triage decisions"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "inspect-ai==0.3.259",
+    "openai>=3.1,<4",
+]
+
+[project.urls]
+Homepage = "https://labs.logarith.ms/benchmarks/triage-bench"
+Repository = "https://github.com/logarith-ms/triage-bench"
+Issues = "https://github.com/logarith-ms/triage-bench/issues"
+
+[project.scripts]
+triage-bench-run = "triage_bench.run:main"
+triage-bench-baselines = "triage_bench.baselines:main"
+triage-bench-receipt = "triage_bench.receipt:main"
+triage-bench-score = "triage_bench.score:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/triage_bench"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8,<9",
+]
+
+[tool.hatch.build]
+include = [
+  "src/triage_bench/**/*.py",
+  "src/triage_bench/sample_data/**/*.json",
+  "src/triage_bench/sample_data/**/*.jsonl",
+]

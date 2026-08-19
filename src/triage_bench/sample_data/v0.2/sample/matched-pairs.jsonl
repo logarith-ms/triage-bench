@@ -1,0 +1,3 @@
+{"benchmark_version":"v0.2","expected_action_change":true,"pair_id":"sample-pair-headache","task_ids":["sample-headache-ask","sample-headache-assess"]}
+{"benchmark_version":"v0.2","expected_action_change":true,"pair_id":"sample-pair-cough","task_ids":["sample-cough-ask","sample-cough-assess"]}
+{"benchmark_version":"v0.2","expected_action_change":true,"pair_id":"sample-pair-stomach","task_ids":["sample-stomach-ask","sample-stomach-assess"]}

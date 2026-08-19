@@ -1,0 +1,10 @@
+TriageBench Public Data License
+
+The 100-task public TriageBench release and its matched-pair records are
+licensed under the Creative Commons Attribution 4.0 International License:
+https://creativecommons.org/licenses/by/4.0/
+
+The public release is marked not-for-training. That designation records the
+intended use of the benchmark and is not an additional restriction on CC BY 4.0.
+Licensed Clinical Triage Reasoning - UK training data and hidden evaluation
+records are not covered by this file and are not included in this repository.

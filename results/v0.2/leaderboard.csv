@@ -1,0 +1,32 @@
+rank,display_name,model_id,reasoning_effort,provider,score_percent,correct,cases_evaluated,configuration_id
+1,GPT 5.5 (xHigh reasoning),openai/gpt-5.5,xhigh,Azure,50.6,42,83,chartography-10
+2,Claude Opus 4.8 (default),anthropic/claude-opus-4.8,default,Amazon Bedrock,45,45,100,chartography-37
+3,Qwen 3.5 Plus,qwen/qwen3.5-plus-20260420,default,Alibaba,44,44,100,chartography-28
+4,Claude Opus 5 (default),anthropic/claude-opus-5,default,Amazon Bedrock,43,43,100,chartography-19
+5,Gemini 3.1 Pro,google/gemini-3.1-pro-preview,default,Google,42,42,100,chartography-18
+6,GPT 5.6 Sol (default),openai/gpt-5.6-sol,default,Azure,42,42,100,chartography-02
+7,Qwen 3.7 Plus,qwen/qwen3.7-plus,default,Alibaba,41,41,100,chartography-29
+8,Qwen 3.8 Max,qwen/qwen3.8-max,default,Alibaba,41,41,100,chartography-13
+9,Claude Opus 4.7 (default),anthropic/claude-opus-4.7,default,Amazon Bedrock,40,40,100,chartography-31
+10,Claude Sonnet 5 (default),anthropic/claude-sonnet-5,default,Amazon Bedrock,40,40,100,chartography-34
+11,GPT 5.6 Sol (Max reasoning),openai/gpt-5.6-sol,max,Azure,40,40,100,chartography-01
+12,Muse Spark 1.1 (xHigh reasoning),meta/muse-spark-1.1,xhigh,Meta,40,40,100,chartography-20
+13,GPT 5.4 (default),openai/gpt-5.4,default,Azure,39,39,100,chartography-30
+14,GPT 5.5 (default),openai/gpt-5.5,default,Azure,39,39,100,chartography-14
+15,GPT 5.6 Luna (default),openai/gpt-5.6-luna,default,Azure,39,39,100,chartography-22
+16,GPT 5.6 Terra (Max reasoning),openai/gpt-5.6-terra,max,Azure,39,39,100,chartography-06
+17,Gemini 3.5 Flash-Lite (default),google/gemini-3.5-flash-lite,default,Google,38,38,100,chartography-38
+18,Grok 4.5 (default),x-ai/grok-4.5,default,xAI,38,38,100,chartography-23
+19,Mistral Large 3,mistralai/mistral-large-2512,default,Mistral,38,38,100,chartography-39
+20,Muse Spark 1.1 (default),meta/muse-spark-1.1,default,Meta,37,37,100,chartography-21
+21,Muse Spark 1.2 (default),meta/muse-spark-1.2,default,Meta,37,37,100,chartography-08
+22,Gemini 3.6 Flash (default),google/gemini-3.6-flash,default,Google,36,36,100,chartography-05
+23,Grok 4.3 (default),x-ai/grok-4.3,default,xAI,36,36,100,chartography-36
+24,Kimi K3 (Max reasoning),moonshotai/kimi-k3,max,Moonshot AI,36,36,100,chartography-17
+25,GPT 5.6 Terra (default),openai/gpt-5.6-terra,default,Azure,35,35,100,chartography-16
+26,Gemini 3.5 Flash (default),google/gemini-3.5-flash,default,Google,34,34,100,chartography-03
+27,GPT 5.6 Luna (Max reasoning),openai/gpt-5.6-luna,max,Azure,34,34,100,chartography-09
+28,Muse Spark 1.2 (xHigh reasoning),meta/muse-spark-1.2,xhigh,Meta,34,34,100,chartography-07
+29,Kimi K2.5,moonshotai/kimi-k2.5,default,Moonshot AI,31,31,100,chartography-33
+30,Kimi K2.6,moonshotai/kimi-k2.6,default,Moonshot AI,26,26,100,chartography-35
+31,Inkling,thinkingmachines/inkling,default,DeepInfra,20,4,20,chartography-40

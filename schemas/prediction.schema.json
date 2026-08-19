@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labs.logarith.ms/schemas/triage-bench-prediction/v0.2.json",
+  "title": "TriageBench prediction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["task_id", "selected_option_id"],
+  "properties": {
+    "task_id": { "type": "string", "pattern": "^triage-v02-[0-9]{3}$" },
+    "selected_option_id": { "enum": ["A", "B", "C", "D"] }
+  }
+}
